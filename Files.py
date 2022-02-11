@@ -7,7 +7,7 @@ F.write("\nЯ из лесу вышел. Был сильный мороз!")
 F.close()
 
 F = open("test.txt", 'r')
-#print(F.readlines())
+# print(F.readlines())
 print(F.read(7))
 print(F.read())
 F.close()
@@ -16,21 +16,22 @@ F = open("test.txt", 'rt', encoding="cp1251")
 print(F.readlines())
 F.close()
 
-import time
-F = open("D:\Tests\songs.txt", 'rt', encoding="utf8")
-for str in F:
-    print(str, end="")
+# import time
+F = open(r"D:\Tests\songs.txt", 'rt', encoding="utf8")
+for str1 in F:
+    print(str1, end="")
     # time.sleep(1)
 F.close()
 
-F = open("D:\Tests\songs.txt", 'rt', encoding="utf8")
+F = open(r"D:\Tests\songs.txt", 'rt', encoding="utf8")
 
 print(F.read())
 F.close()
 
-with open("D:\Tests\songs.txt", 'rt', encoding="utf8") as F:
-    for str in F:
-        print(str, end="")
+with open(r"D:\Tests\songs.txt", 'rt', encoding="utf8") as F:
+    for str1 in F:
+        print(str1, end="")
+
 
 def caesars_cipher(number, infile, outfile):
     alpha = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
@@ -54,7 +55,8 @@ def caesars_cipher(number, infile, outfile):
     with open(outfile, 'w', encoding="utf8") as myFile:
         myFile.write(summary)
 
-caesars_cipher(5,"D:\Tests\songs.txt","D:\Tests\songs5.txt")
+
+caesars_cipher(5, "D:\Tests\songs.txt", "D:\Tests\songs5.txt")
 
 with open("D:\Tests\songs5.txt", encoding="utf8") as myFile:
     for line in myFile:
@@ -63,6 +65,7 @@ with open("D:\Tests\songs5.txt", encoding="utf8") as myFile:
 import os
 
 print(os.path.join('..', 'test', 'filename.txt'))
+
 
 # Лабиринт
 # global pozOut, pozIn
@@ -153,3 +156,51 @@ else:
             print("{:^3}".format(line), end=" ")
         print()
     print(result)
+
+''' JSON JSON JSON JSON JSON JSON JSON '''
+import json
+
+template = {
+    'firstname': 'Иван',
+    'lastname': 'Иванов',
+    'isAlive': True,
+    'age': 32,
+    'address': {
+        'streetAddress': 'Нейбута 32',
+        'city': 'Владивосток',
+        'state': '',
+        'postalcode': ''
+    },
+    'phoneNumbers': [
+        {
+            'type': 'mob',
+            'number': '123-333-4455'
+        },
+        {
+            'type': 'office',
+            'number': '123 111-4567'
+        }
+    ],
+    'children': [],
+    'spouse': None
+}
+
+with open('to_json_example.json', 'w', encoding='utf8') as f:
+    json.dump(template, f, ensure_ascii=False, indent=4)
+
+with open('to_json_example.json', encoding='utf8') as f:
+    print(f.read())
+
+
+with open('to_json_example.json', encoding='utf8') as f:
+    templates = json.load(f)
+
+print(templates)
+print(type(templates))
+
+with open('to_json_example.json', encoding='utf8') as f:
+    strfile = f.read()
+    templates = json.loads(strfile)
+
+print(templates)
+print(type(templates))
