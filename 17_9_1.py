@@ -53,7 +53,7 @@ while not str_i:
 int_array = list(map(int, str_i.split()))
 print(f'несорт. список: {int_array}')
 qsort(int_array, 0, len(int_array) - 1)
-print(f' сорт.  список: {int_array}')
+print(f'  сорт. список: {int_array}')
 number = False
 while not number:
     number = int(input_int(input('Введите число:')))
