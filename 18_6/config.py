@@ -1,7 +1,7 @@
 from tele_token import key
 
 
-token = key
+token = key# вставьте вместо key свой токен и удалите верхнюю строку
 
 
 money = {
