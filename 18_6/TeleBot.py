@@ -5,7 +5,8 @@ import telebot
 bot = telebot.TeleBot(token)
 
 
-@bot.message_handler(commands=['start', 'help', 'h'])# обработка команд /start и /help
+# обработка команд /start и /help
+@bot.message_handler(commands=['start', 'help', 'h'])
 def echo_test(message: telebot.types.Message):
     text = '''Чтобы конвертировать введите команду боту в формате:\n  "Какая валюта"  \
 "в какой валюте"  "количество первой"\nНапример: \nдоллар рубль 10  => Получите \
@@ -15,7 +16,8 @@ def echo_test(message: telebot.types.Message):
     bot.reply_to(message, text)
 
 
-@bot.message_handler(commands=['values'])# выводим доступные валюты
+# выводим доступные валюты
+@bot.message_handler(commands=['values'])
 def values(message: telebot.types.Message):
     text = 'Доступные валюты:'
     for key in money.keys():
@@ -23,29 +25,40 @@ def values(message: telebot.types.Message):
     bot.reply_to(message, text)
 
 
-@bot.message_handler(content_types=['text'])# обрабатываем запрос из сообщения
+# обрабатываем запрос из сообщения
+@bot.message_handler(content_types=['text'])
 def convert(message: telebot.types.Message):
-    values = message.text.split(' ')# преобразуем текст сообщения в параметры
+    # преобразуем текст сообщения в список параметров
+    list_values = message.text.split(' ')
 
     try:
-        if len(values) != 3:
-            raise APIException('Неверное количество параметров.')# поднимаем ошибку по кол. параметров
-    except APIException as e:# обрабатываем ошибку
-        print(e)# копия в консольку
-        bot.reply_to(message, e)# ответ по ошибке
+        if len(list_values) != 3:
+            # поднимаем ошибку по кол. параметров
+            raise APIException('Неверное количество параметров.')
+    # обрабатываем ошибку
+    except APIException as e:
+        # копия в консольку
+        print(e)
+        # ответ по ошибке
+        bot.reply_to(message, str(e))
         return
-    base, quote, amount = values# заполняем параметры
+    # заполняем параметры
+    base, quote, amount = list_values
+    # проверяем и конвертируем
+    total_base = CryptoConverter.get_price(base, quote, amount)
 
-    total_base = CryptoConverter.get_price(base, quote, amount)# проверяем и конвертируем
-
-
-    if 'float' in str(type(total_base)):# разбираем результат работы CryptoConverter
-        text = f'Цена {amount} {base} = {round(total_base, 2)} {quote}'# результат конвертации
+    # разбираем результат работы CryptoConverter
+    if 'float' in str(type(total_base)):
+        # результат конвертации:
+        text = f'Цена {amount} {base} = {round(total_base, 2)} {quote}'
     else:
-        text = total_base# фиксация ошибки
+        # фиксация ошибки
+        text = total_base
 
-    print(text)# копия в консольку
-    bot.reply_to(message, text)# ответ на запрос или ошибке
+    # ответ на запрос или ошибке
+    bot.reply_to(message, text)
+    # копия в консольку
+    print(text)
     # bot.send_message(message.chat.id, text)
 
 
