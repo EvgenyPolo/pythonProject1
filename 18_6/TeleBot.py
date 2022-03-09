@@ -34,13 +34,11 @@ def convert(message: telebot.types.Message):
     try:
         if len(list_values) != 3:
             # поднимаем ошибку по кол. параметров
-            raise APIException('Неверное количество параметров.')
+            raise APIException('Введите команду или запрос.')
     # обрабатываем ошибку
     except APIException as e:
-        # копия в консольку
-        print(e)
         # ответ по ошибке
-        bot.reply_to(message, str(e))
+        bot.reply_to(message, f'Ошибка пользователя.\n{e}')
         return
     # заполняем параметры
     base, quote, amount = list_values
@@ -57,9 +55,6 @@ def convert(message: telebot.types.Message):
 
     # ответ на запрос или ошибке
     bot.reply_to(message, text)
-    # копия в консольку
-    print(text)
-    # bot.send_message(message.chat.id, text)
 
 
 bot.polling(none_stop=True)
